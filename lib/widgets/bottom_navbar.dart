@@ -14,9 +14,11 @@ class BottomNavShell extends StatefulWidget {
 
 class _BottomNavShellState extends State<BottomNavShell> {
   int _currentIndex = 0;
-  final List<Widget> _pages = [
+
+  // Use a list of functions to create pages, so SavedPage can be refreshed
+  List<Widget> get _pages => [
     FeedPage(),
-    SavedPage(),
+    SavedPage(), // This will be recreated each time
     UploadsPage(),
     ProfilePage(),
   ];
@@ -63,7 +65,6 @@ class _BottomNavShellState extends State<BottomNavShell> {
       body: _pages[_currentIndex],
       bottomNavigationBar: SizedBox(
         height: 105,
-
         child: Material(
           elevation: 20.00,
           shadowColor: Colors.black,

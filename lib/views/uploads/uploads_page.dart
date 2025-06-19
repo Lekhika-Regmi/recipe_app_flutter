@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/widgets/recipe_card.dart';
 
 import '../../data/recipe_data.dart';
+import '../../widgets/recipe_card_new.dart';
 import 'add_recipe_page.dart';
 
 class UploadsPage extends StatelessWidget {
@@ -23,7 +23,7 @@ class UploadsPage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
-      body: recipeCard(uploadedRecipes, showDelete: true),
+      body: recipeCardNew(uploadedRecipes, showDelete: true),
     );
   }
 }

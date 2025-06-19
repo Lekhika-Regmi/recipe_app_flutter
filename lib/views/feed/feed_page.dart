@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../data/recipe_data.dart';
-import '../../widgets/recipe_card.dart';
+import '../../widgets/recipe_card_new.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -17,10 +17,12 @@ class _FeedPageState extends State<FeedPage> {
   int _currentPage = 0;
   Timer? _timer;
 
-  final List<String> images = forYouRecipes
-      .map((recipe) => recipe['image'] as String)
-      .toList();
-
+  final List<String> images = forYouRecipes.map((recipe) {
+    if (recipe.image != null && recipe.image!.isNotEmpty) {
+      return recipe.image!;
+    }
+    return 'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6';
+  }).toList();
   @override
   void initState() {
     super.initState();
@@ -127,9 +129,9 @@ class _FeedPageState extends State<FeedPage> {
               shrinkWrap: true,
               children: [
                 _buildCategoryCard('Breakfast', Icons.free_breakfast),
-                _buildCategoryCard('Lunch', Icons.set_meal),
+                _buildCategoryCard('Main Course', Icons.set_meal),
                 _buildCategoryCard('Snacks', Icons.local_pizza),
-                _buildCategoryCard('Dinner', Icons.fastfood),
+                _buildCategoryCard('Appetizers', Icons.fastfood_outlined),
                 _buildCategoryCard('Vegan', Icons.eco),
                 _buildCategoryCard('Brunch', Icons.breakfast_dining_rounded),
               ],
@@ -151,7 +153,7 @@ class _FeedPageState extends State<FeedPage> {
             ),
           ),
           const SizedBox(height: 10.0),
-          recipeCard(forYouRecipes),
+          recipeCardNew(forYouRecipes),
         ],
       ),
     );
