@@ -36,23 +36,6 @@ Widget recipeCardNew(
   Function(String)? onRecipeDeleted,
   VoidCallback? onSavedChanged,
 }) {
-  // Icon getFoodTypeIcon(DietType dietType) {
-  //   switch (dietType) {
-  //     case DietType.VEGETARIAN:
-  //       return Icon(Icons.dining_outlined, color: Colors.green);
-  //     case DietType.NON_VEGETARIAN:
-  //       return Icon(Icons.dining_outlined, color: Colors.red);
-  //     case DietType.VEGAN:
-  //       return Icon(Icons.eco_outlined, color: Colors.teal);
-  //     case DietType.GLUTEN_FREE:
-  //       return Icon(Icons.no_food_outlined, color: Colors.orange);
-  //     case DietType.KETO:
-  //       return Icon(Icons.fitness_center_outlined, color: Colors.purple);
-  //     case DietType.PALEO:
-  //       return Icon(Icons.nature_outlined, color: Colors.brown);
-  //   }
-  // }
-
   Widget getDifficultyChip(Difficulty difficulty) {
     Color chipColor;
     switch (difficulty) {
@@ -89,161 +72,169 @@ Widget recipeCardNew(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
       height: 600,
-      child: GridView.builder(
-        itemCount: recipes.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.75,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 15,
-        ),
-        itemBuilder: (context, index) {
-          final recipe = recipes[index];
-          final isSaved = isRecipeSaved(recipe.recipeId);
+      child: StatefulBuilder(
+        builder: (context, setState) {
+          return GridView.builder(
+            itemCount: recipes.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.75,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 15,
+            ),
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+              final isSaved = isRecipeSaved(recipe.recipeId);
 
-          return SizedBox(
-            child: Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Image Section
-                  Expanded(
-                    flex: 3,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(15),
-                      ),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Image.network(
-                            recipe.image ?? '',
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.network(
-                                'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6',
-                                fit: BoxFit.cover,
-                              );
-                            },
+              return SizedBox(
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Image Section
+                      Expanded(
+                        flex: 3,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(15),
                           ),
-                          // Category badge
-                          Positioned(
-                            top: 8,
-                            left: 8,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Image.network(
+                                recipe.image ?? '',
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.network(
+                                    'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6',
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.7),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                recipe.category.displayName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                              // Category badge
+                              Positioned(
+                                top: 8,
+                                left: 8,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    recipe.category.displayName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Info Section
-                  Expanded(
-                    flex: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            recipe.title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Created: ${formatTimeAgo(recipe.createdAt)}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              getDifficultyChip(recipe.difficulty),
-                              // getFoodTypeIcon(recipe.diet),
                             ],
                           ),
-                          SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        ),
+                      ),
+                      // Info Section
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 4,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                recipe.diet.displayName,
+                                recipe.title,
                                 style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.grey[600],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Created: ${formatTimeAgo(recipe.createdAt)}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[700],
                                 ),
                               ),
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                                onPressed: () {
-                                  if (showDelete) {
-                                    // Handle delete
-                                    onRecipeDeleted?.call(recipe.recipeId);
-                                  } else {
-                                    // Handle save/unsave
-                                    toggleSavedRecipe(recipe.recipeId);
-                                    onSavedChanged?.call();
-                                  }
-                                },
-                                icon: showDelete
-                                    ? Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                        size: 20,
-                                      )
-                                    : Icon(
-                                        isSaved
-                                            ? Icons.bookmark
-                                            : Icons.bookmark_border,
-                                        color: isSaved
-                                            ? Colors.brown[700]
-                                            : Colors.brown,
-                                        size: 20,
-                                      ),
+                              SizedBox(height: 4),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  getDifficultyChip(recipe.difficulty),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    recipe.diet.displayName,
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(),
+                                    onPressed: () {
+                                      if (showDelete) {
+                                        // Handle delete
+                                        onRecipeDeleted?.call(recipe.recipeId);
+                                      } else {
+                                        // Handle save/unsave with immediate UI update
+                                        toggleSavedRecipe(recipe.recipeId);
+                                        setState(
+                                          () {},
+                                        ); // This triggers immediate UI update
+                                        onSavedChanged?.call();
+                                      }
+                                    },
+                                    icon: showDelete
+                                        ? Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                            size: 20,
+                                          )
+                                        : Icon(
+                                            isSaved
+                                                ? Icons.bookmark
+                                                : Icons.bookmark_border,
+                                            color: isSaved
+                                                ? Colors.brown[700]
+                                                : Colors.brown,
+                                            size: 20,
+                                          ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -338,157 +329,171 @@ Widget recipeCard(
 
   return Padding(
     padding: const EdgeInsets.all(7.0),
-    child: GridView.builder(
-      itemCount: recipes.length,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.75,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 15,
-      ),
-      itemBuilder: (context, index) {
-        final recipe = recipes[index];
-        final recipeId = recipe['id'] ?? recipe['recipeId'] ?? '';
-        final isSaved = isRecipeSaved(recipeId);
-
-        return Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+    child: StatefulBuilder(
+      builder: (context, setState) {
+        return GridView.builder(
+          itemCount: recipes.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 15,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Image Section
-              Expanded(
-                flex: 5,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.network(
-                        recipe['image'] ?? '',
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.network(
-                            'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6',
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      ),
-                      // Category badge
-                      Positioned(
-                        top: 8,
-                        left: 8,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            recipe['category'] ?? 'Recipe',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+          itemBuilder: (context, index) {
+            final recipe = recipes[index];
+            final recipeId = recipe['id'] ?? recipe['recipeId'] ?? '';
+            final isSaved = isRecipeSaved(recipeId);
+
+            return Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
               ),
-              // Info Section
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 4,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipe['title'] ?? recipe['name'] ?? 'Recipe',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Image Section
+                  Expanded(
+                    flex: 5,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(15),
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Uploaded: ${formatTimeAgoFromString(recipe['createdAt'])}',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Stack(
+                        fit: StackFit.expand,
                         children: [
-                          getDifficultyChip(recipe['difficulty'] ?? 'Easy'),
-                          getFoodTypeIcon(
-                            recipe['type'] ?? recipe['diet'] ?? 'veg',
+                          Image.network(
+                            recipe['image'] ?? '',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.network(
+                                'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6',
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                          // Category badge
+                          Positioned(
+                            top: 8,
+                            left: 8,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                recipe['category'] ?? 'Recipe',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                  ),
+                  // Info Section
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 4,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            recipe['type'] ?? recipe['diet'] ?? 'Vegetarian',
+                            recipe['title'] ?? recipe['name'] ?? 'Recipe',
                             style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey[600],
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Uploaded: ${formatTimeAgoFromString(recipe['createdAt'])}',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[700],
                             ),
                           ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            onPressed: () {
-                              if (showDelete) {
-                                // Handle delete
-                                onRecipeDeleted?.call(recipeId);
-                              } else {
-                                // Handle save/unsave
-                                toggleSavedRecipe(recipeId);
-                                onSavedChanged?.call();
-                              }
-                            },
-                            icon: showDelete
-                                ? Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 20,
-                                  )
-                                : Icon(
-                                    isSaved
-                                        ? Icons.bookmark
-                                        : Icons.bookmark_border,
-                                    color: isSaved
-                                        ? Colors.brown[700]
-                                        : Colors.brown,
-                                    size: 20,
-                                  ),
+                          SizedBox(height: 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              getDifficultyChip(recipe['difficulty'] ?? 'Easy'),
+                              getFoodTypeIcon(
+                                recipe['type'] ?? recipe['diet'] ?? 'veg',
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                recipe['type'] ??
+                                    recipe['diet'] ??
+                                    'Vegetarian',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                                onPressed: () {
+                                  if (showDelete) {
+                                    // Handle delete
+                                    onRecipeDeleted?.call(recipeId);
+                                  } else {
+                                    // Handle save/unsave with immediate UI update
+                                    toggleSavedRecipe(recipeId);
+                                    setState(
+                                      () {},
+                                    ); // This triggers immediate UI update
+                                    onSavedChanged?.call();
+                                  }
+                                },
+                                icon: showDelete
+                                    ? Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                        size: 20,
+                                      )
+                                    : Icon(
+                                        isSaved
+                                            ? Icons.bookmark
+                                            : Icons.bookmark_border,
+                                        color: isSaved
+                                            ? Colors.brown[700]
+                                            : Colors.brown,
+                                        size: 20,
+                                      ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     ),
