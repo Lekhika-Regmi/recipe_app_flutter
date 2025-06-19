@@ -57,30 +57,6 @@ class Recipe {
     };
   }
 
-  // Helper method to get old format for backward compatibility
-  Map<String, dynamic> toOldFormat() {
-    return {
-      'name': title,
-      'date':
-          '${createdAt.year}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}',
-      'type': _getOldDietType(),
-      'image': image ?? '',
-    };
-  }
-
-  String _getOldDietType() {
-    switch (diet) {
-      case DietType.VEGETARIAN:
-        return 'veg';
-      case DietType.NON_VEGETARIAN:
-        return 'nonveg';
-      case DietType.VEGAN:
-        return 'vegan';
-      default:
-        return 'veg';
-    }
-  }
-
   // Static helper methods for enum conversion
   static RecipeCategory _getCategoryFromString(String category) {
     switch (category.toUpperCase()) {

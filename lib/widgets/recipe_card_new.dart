@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/recipe_data.dart';
 import '../models/recipe_model.dart';
+//import '../services/api_service.dart';
 
 // Helper function to format time ago
 String formatTimeAgo(DateTime dateTime) {
@@ -71,7 +72,6 @@ Widget recipeCardNew(
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
-      height: 600,
       child: StatefulBuilder(
         builder: (context, setState) {
           return GridView.builder(
@@ -111,10 +111,14 @@ Widget recipeCardNew(
                                 recipe.image ?? '',
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return Image.network(
-                                    'https://us.123rf.com/450wm/yupiramos/yupiramos2208/yupiramos220802258/189948846-recipe-with-vegetables.jpg?ver=6',
+                                  return Image.asset(
+                                    'assets/default.jpg',
                                     fit: BoxFit.cover,
                                   );
+                                  // return Image.network(
+                                  //   'https://cdn.vectorstock.com/i/500p/19/46/culinary-recipe-book-page-or-menu-card-for-notes-vector-41611946.jpg',
+                                  //   fit: BoxFit.cover,
+                                  // );
                                 },
                               ),
                               // Category badge

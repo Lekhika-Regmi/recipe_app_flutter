@@ -292,19 +292,6 @@ List<Recipe> get savedRecipes {
       .toList();
 }
 
-// For backward compatibility with existing code
-List<Map<String, dynamic>> get uploadedRecipesOldFormat {
-  return uploadedRecipes.map((recipe) => recipe.toOldFormat()).toList();
-}
-
-List<Map<String, dynamic>> get forYouRecipesOldFormat {
-  return forYouRecipes.map((recipe) => recipe.toOldFormat()).toList();
-}
-
-List<Map<String, dynamic>> get savedRecipesOldFormat {
-  return savedRecipes.map((recipe) => recipe.toOldFormat()).toList();
-}
-
 // Global saved recipes list (in-memory storage for now)
 Set<String> _savedRecipeIds = <String>{};
 
