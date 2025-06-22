@@ -47,18 +47,6 @@ class _BottomNavShellState extends State<BottomNavShell> {
                 ),
               ),
             ),
-            if (_currentIndex == 0) // show icon only on Feed page
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.search_outlined,
-                    size: 30.0,
-                    color: Colors.brown[500],
-                  ),
-                ),
-              ),
           ],
         ),
       ),

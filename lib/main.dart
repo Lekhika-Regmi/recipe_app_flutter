@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/widgets/bottom_navbar.dart';
 
 void main() {
-  runApp(const RecipeApp());
+  runApp(const ProviderScope(child: RecipeApp()));
 }
 
 class RecipeApp extends StatelessWidget {
