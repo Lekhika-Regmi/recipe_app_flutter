@@ -7,6 +7,7 @@ import '../../data/recipe_data.dart';
 import '../../models/recipe_model.dart';
 import '../../services/api_service.dart';
 import '../../widgets/recipe_card_new.dart';
+import '../screens/category_recipes_page.dart'; // Import the new page
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -86,14 +87,44 @@ class _FeedPageState extends State<FeedPage> {
     super.dispose();
   }
 
-  Widget _buildCategoryCard(String title, IconData icon) {
-    return Card(
-      color: Colors.orangeAccent[50],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        style: ListTileStyle.drawer,
-        title: Text(title),
-        leading: Icon(icon, color: Colors.brown[700]),
+  // Updated method to handle category navigation
+  Widget _buildCategoryCard(
+    String title,
+    IconData icon,
+    RecipeCategory category,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        // Navigate to category recipes page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryRecipesPage(
+              category: category,
+              categoryDisplayName: title,
+            ),
+          ),
+        );
+      },
+      child: Card(
+        color: Colors.orangeAccent[50],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: ListTile(
+          style: ListTileStyle.drawer,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.brown[700],
+            ),
+          ),
+          leading: Icon(icon, color: Colors.brown[700]),
+          trailing: Icon(
+            Icons.arrow_forward_ios,
+            size: 16,
+            color: Colors.brown[500],
+          ),
+        ),
       ),
     );
   }
@@ -306,12 +337,36 @@ class _FeedPageState extends State<FeedPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
-                  _buildCategoryCard('Breakfast', Icons.free_breakfast),
-                  _buildCategoryCard('Main Course', Icons.set_meal),
-                  _buildCategoryCard('Snacks', Icons.local_pizza),
-                  _buildCategoryCard('Appetizers', Icons.fastfood_outlined),
-                  _buildCategoryCard('Vegan', Icons.eco),
-                  _buildCategoryCard('Brunch', Icons.breakfast_dining_rounded),
+                  _buildCategoryCard(
+                    'Breakfast',
+                    Icons.free_breakfast,
+                    RecipeCategory.BREAKFAST,
+                  ),
+                  _buildCategoryCard(
+                    'Main Course',
+                    Icons.set_meal,
+                    RecipeCategory.MAIN_COURSE,
+                  ),
+                  _buildCategoryCard(
+                    'Snacks',
+                    Icons.local_pizza,
+                    RecipeCategory.SNACK,
+                  ),
+                  _buildCategoryCard(
+                    'Appetizers',
+                    Icons.fastfood_outlined,
+                    RecipeCategory.APPETIZER,
+                  ),
+                  _buildCategoryCard(
+                    'Dessert',
+                    Icons.cake,
+                    RecipeCategory.DESSERT,
+                  ),
+                  _buildCategoryCard(
+                    'Soup',
+                    Icons.soup_kitchen,
+                    RecipeCategory.SOUP,
+                  ),
                 ],
               ),
             ),

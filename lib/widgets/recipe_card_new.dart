@@ -1,5 +1,6 @@
 // lib/widgets/recipe_card.dart
 import 'package:flutter/material.dart';
+import 'package:recipe_app/views/screens/recipe_detail_page.dart';
 
 import '../data/recipe_data.dart';
 import '../models/recipe_model.dart';
@@ -88,7 +89,16 @@ Widget recipeCardNew(
               final recipe = recipes[index];
               final isSaved = isRecipeSaved(recipe.recipeId);
 
-              return SizedBox(
+              return TextButton(
+                onPressed: () {
+                  // In your onPressed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeDetailPage(recipe: recipe),
+                    ),
+                  );
+                },
                 child: Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
