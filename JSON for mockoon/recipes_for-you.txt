@@ -1,0 +1,329 @@
+/recipes/for-you
+
+{
+  "status": "Server is running",
+  "recipes": [
+    {
+      "recipe_id": "rec_001",
+      "user_id": "1",
+      "title": "Paneer Tikka",
+      "category": "MAIN_COURSE",
+      "diet": "VEGETARIAN",
+      "difficulty": "MEDIUM",
+      "ingredients": [
+        "500g paneer cubes",
+        "1 cup yogurt",
+        "2 tsp ginger-garlic paste",
+        "1 tsp red chili powder",
+        "1 tsp garam masala",
+        "1 tsp cumin powder",
+        "2 tbsp oil",
+        "Salt to taste",
+        "Bell peppers and onions for grilling"
+      ],
+      "instructions": [
+        "Cut paneer into cubes and marinate with yogurt and spices for 30 minutes",
+        "Thread paneer, bell peppers, and onions onto skewers",
+        "Grill or bake at 200°C for 15-20 minutes, turning occasionally",
+        "Serve hot with mint chutney and lemon wedges"
+      ],
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjU3AT9r8228is-t5JHuLCk2InG0PID_mpRw&s",
+      "createdAt": "2025-06-11T10:30:00Z"
+    },
+    {
+      "recipe_id": "rec_002",
+      "user_id": "1",
+      "title": "Chicken Butter Masala",
+      "category": "MAIN_COURSE",
+      "diet": "NON_VEGETARIAN",
+      "difficulty": "HARD",
+      "ingredients": [
+        "500g boneless chicken",
+        "2 tbsp butter",
+        "1 large onion, chopped",
+        "3 tomatoes, pureed",
+        "1 cup heavy cream",
+        "2 tsp ginger-garlic paste",
+        "1 tsp garam masala",
+        "1 tsp red chili powder",
+        "1 tsp cumin powder",
+        "Salt to taste",
+        "Fresh cilantro for garnish"
+      ],
+      "instructions": [
+        "Marinate chicken with spices and cook until tender",
+        "In a pan, melt butter and sauté onions until golden",
+        "Add tomato puree and cook until oil separates",
+        "Add cooked chicken and simmer for 10 minutes",
+        "Stir in cream and garnish with cilantro before serving"
+      ],
+      "image": "https://i0.wp.com/www.nourishdeliciously.com/wp-content/uploads/2022/11/DSC_9207.jpg",
+      "createdAt": "2025-06-10T14:15:00Z"
+    },
+    {
+      "recipe_id": "rec_003",
+      "user_id": "1",
+      "title": "Vegan Salad",
+      "category": "SALAD",
+      "diet": "VEGAN",
+      "difficulty": "EASY",
+      "ingredients": [
+        "2 cups mixed greens",
+        "1 cucumber, diced",
+        "2 tomatoes, chopped",
+        "1 avocado, sliced",
+        "1/4 cup red onion, thinly sliced",
+        "2 tbsp olive oil",
+        "1 tbsp lemon juice",
+        "1 tsp balsamic vinegar",
+        "Salt and pepper to taste",
+        "2 tbsp pumpkin seeds"
+      ],
+      "instructions": [
+        "Wash and prepare all vegetables",
+        "In a large bowl, combine mixed greens, cucumber, tomatoes, and red onion",
+        "Add sliced avocado on top",
+        "Whisk together olive oil, lemon juice, and balsamic vinegar",
+        "Drizzle dressing over salad and sprinkle with pumpkin seeds",
+        "Season with salt and pepper before serving"
+      ],
+      "image": "https://rainbowplantlife.com/wp-content/uploads/2021/06/3-500x500.png",
+      "createdAt": "2025-06-09T12:45:00Z"
+    }
+  ],
+  "forYouRecipes": [
+       {
+    "recipe_id": "rec_005",
+    "user_id": "1",
+    "title": "Creamy Mushroom Soup",
+    "category": "SOUP",
+    "diet": "VEGETARIAN",
+    "difficulty": "EASY",
+    "ingredients": [
+      "2 tbsp olive oil",
+      "1 medium onion, chopped",
+      "2 cloves garlic, minced",
+      "500g fresh mushrooms, sliced",
+      "1 tbsp flour",
+      "4 cups vegetable broth",
+      "1/2 cup heavy cream",
+      "1/2 tsp dried thyme",
+      "Salt and pepper to taste",
+      "Fresh parsley for garnish"
+    ],
+    "instructions": [
+      "Heat olive oil in a large pot over medium heat",
+      "Add chopped onions and garlic, sauté until translucent",
+      "Add sliced mushrooms and cook until tender and browned",
+      "Stir in flour and cook for 1 minute to form a roux",
+      "Pour in vegetable broth and bring to a boil",
+      "Reduce heat and simmer for 15 minutes",
+      "Blend part or all of the soup for a creamier texture",
+      "Stir in heavy cream, thyme, salt, and pepper",
+      "Simmer for another 5 minutes until heated through",
+      "Serve hot, garnished with fresh parsley"
+    ],
+    "image": "https://rainbowplantlife.com/wp-content/uploads/2022/11/Mushroom-soup-cover-image-1-of-1.jpg",
+    "createdAt": "2025-06-22T09:30:00Z"
+  },
+    {
+      "recipe_id": "rec_004",
+      "user_id": "1",
+      "title": "French Toast",
+      "category": "BREAKFAST",
+      "diet": "VEGETARIAN",
+      "difficulty": "EASY",
+      "ingredients": [
+        "4 slices thick bread",
+        "2 large eggs",
+        "1/2 cup milk",
+        "1 tsp vanilla extract",
+        "1/2 tsp cinnamon",
+        "2 tbsp butter",
+        "Maple syrup for serving",
+        "Powdered sugar for dusting"
+      ],
+      "instructions": [
+        "Beat eggs, milk, vanilla, and cinnamon in a shallow dish",
+        "Heat butter in a large skillet over medium heat",
+        "Dip each bread slice in egg mixture, coating both sides",
+        "Cook bread slices for 2-3 minutes per side until golden brown",
+        "Serve hot with maple syrup and a dusting of powdered sugar"
+      ],
+      "image": "https://thecookiedoughdiaries.com/wp-content/uploads/2022/12/healthy-french-toast-13.jpg",
+      "createdAt": "2025-06-08T08:20:00Z"
+    },
+    {
+        "recipe_id": "rec_010",
+        "user_id": "1",
+        "title": "Chocolate Chip Cookies",
+        "category": "DESSERT",
+        "diet": "VEGETARIAN",
+        "difficulty": "EASY",
+        "ingredients": [
+          "2 cups all-purpose flour",
+          "1 tsp baking soda",
+          "1/2 tsp salt",
+          "1 cup butter, softened",
+          "3/4 cup brown sugar",
+          "1/2 cup white sugar",
+          "2 large eggs",
+          "2 tsp vanilla extract",
+          "2 cups chocolate chips"
+        ],
+        "instructions": [
+          "Preheat oven to 375°F (190°C)",
+          "Mix flour, baking soda, and salt in a bowl",
+          "Cream butter and sugars until fluffy",
+          "Beat in eggs and vanilla",
+          "Gradually add flour mixture",
+          "Stir in chocolate chips",
+          "Drop spoonfuls on baking sheet",
+          "Bake for 9-11 minutes until golden brown"
+        ],
+        "image": "https://sallysbakingaddiction.com/wp-content/uploads/2013/05/classic-chocolate-chip-cookies.jpg",
+        "createdAt": "2025-06-19T15:20:00Z"
+    },
+    {
+      "recipe_id": "rec_005",
+      "user_id": "1",
+      "title": "Churros",
+      "category": "DESSERT",
+      "diet": "VEGAN",
+      "difficulty": "MEDIUM",
+      "ingredients": [
+        "1 cup water",
+        "2 tbsp sugar",
+        "1/2 tsp salt",
+        "2 tbsp vegetable oil",
+        "1 cup all-purpose flour",
+        "Oil for frying",
+        "1/2 cup sugar for coating",
+        "1 tsp cinnamon for coating"
+      ],
+      "instructions": [
+        "Heat water, sugar, salt, and oil in a saucepan until boiling",
+        "Remove from heat and stir in flour until smooth",
+        "Transfer mixture to a piping bag with star tip",
+        "Heat oil to 375°F for frying",
+        "Pipe churros directly into hot oil and fry until golden",
+        "Roll in cinnamon sugar mixture while still warm"
+      ],
+      "image": "https://zhangcatherine.com/wp-content/uploads/2023/02/12001200-1.jpg",
+      "createdAt": "2025-06-07T16:30:00Z"
+    },
+    {
+      "recipe_id": "rec_006",
+      "user_id": "1",
+      "title": "Cheesy Chicken Wrap",
+      "category": "LUNCH",
+      "diet": "NON_VEGETARIAN",
+      "difficulty": "EASY",
+      "ingredients": [
+        "2 large tortillas",
+        "200g cooked chicken breast, sliced",
+        "1/2 cup shredded cheese",
+        "2 tbsp mayonnaise",
+        "1 tomato, sliced",
+        "Lettuce leaves",
+        "1/4 red onion, sliced",
+        "Salt and pepper to taste"
+      ],
+      "instructions": [
+        "Warm tortillas in a dry pan or microwave",
+        "Spread mayonnaise on each tortilla",
+        "Layer chicken, cheese, tomato, lettuce, and onion",
+        "Season with salt and pepper",
+        "Roll tightly and cut in half to serve"
+      ],
+      "image": "https://nourishedbynic.com/wp-content/uploads/2024/07/chicken-salad-wrap.jpg",
+      "createdAt": "2025-06-06T13:10:00Z"
+    },
+    {
+      "recipe_id": "rec_007",
+      "user_id": "1",
+      "title": "Salmon Bowl",
+      "category": "MAIN_COURSE",
+      "diet": "NON_VEGETARIAN",
+      "difficulty": "MEDIUM",
+      "ingredients": [
+        "2 salmon fillets",
+        "1 cup cooked rice",
+        "1 avocado, sliced",
+        "1 cucumber, diced",
+        "1 cup edamame",
+        "2 tbsp soy sauce",
+        "1 tbsp sesame oil",
+        "1 tsp sriracha",
+        "1 tbsp sesame seeds",
+        "Nori sheets for garnish"
+      ],
+      "instructions": [
+        "Season and cook salmon fillets until flaky",
+        "Prepare rice according to package instructions",
+        "Arrange rice in bowls and top with cooked salmon",
+        "Add avocado, cucumber, and edamame around the bowl",
+        "Mix soy sauce, sesame oil, and sriracha for dressing",
+        "Drizzle dressing over bowl and garnish with sesame seeds and nori"
+      ],
+      "image": "https://simply-delicious-food.com/wp-content/uploads/2022/04/Spicy-salmon-rice-bowls5-500x500.jpg",
+      "createdAt": "2025-06-05T19:45:00Z"
+    }
+  ],
+  "savedRecipes": [
+    {
+      "recipe_id": "rec_008",
+      "user_id": "1",
+      "title": "Avocado Toast",
+      "category": "BREAKFAST",
+      "diet": "VEGAN",
+      "difficulty": "EASY",
+      "ingredients": [
+        "2 slices whole grain bread",
+        "1 ripe avocado",
+        "1 tbsp lemon juice",
+        "Salt and pepper to taste",
+        "Red pepper flakes",
+        "Cherry tomatoes for topping",
+        "Hemp seeds (optional)"
+      ],
+      "instructions": [
+        "Toast bread slices until golden brown",
+        "Mash avocado with lemon juice, salt, and pepper",
+        "Spread avocado mixture on toast",
+        "Top with cherry tomatoes and red pepper flakes",
+        "Sprinkle with hemp seeds if desired"
+      ],
+      "image": "https://www.allrecipes.com/thmb/H1mSgOExKFdto3PWLfC9aTgJmlI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11699506-avocado-toast-4x3-ea45b882fb0c454a9ca31647d4fd3c01.jpg",
+      "createdAt": "2025-06-04T09:15:00Z"
+    },
+    {
+      "recipe_id": "rec_009",
+      "user_id": "1",
+      "title": "Egg Sandwich",
+      "category": "BREAKFAST",
+      "diet": "NON_VEGETARIAN",
+      "difficulty": "EASY",
+      "ingredients": [
+        "2 slices bread",
+        "2 large eggs",
+        "2 tbsp butter",
+        "1 slice cheese",
+        "Salt and pepper to taste",
+        "1 tbsp mayonnaise",
+        "Lettuce leaves (optional)"
+      ],
+      "instructions": [
+        "Toast bread slices lightly",
+        "Scramble eggs with salt and pepper in butter",
+        "Spread mayonnaise on one slice of toast",
+        "Layer scrambled eggs and cheese",
+        "Add lettuce if desired and top with second slice",
+        "Cut diagonally and serve immediately"
+      ],
+      "image": "https://images.getrecipekit.com/20240829132941-recipe_kit_breakfast-20sandwich.jpg?width=650&quality=90&",
+      "createdAt": "2025-06-03T07:30:00Z"
+    }
+
+  ]
+}
