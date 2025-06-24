@@ -111,11 +111,10 @@ class AddRecipePageState extends State<AddRecipePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Recipe created successfully!'),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.brown,
           ),
         );
 
-        // Return true to indicate successful creation
         Navigator.of(context).pop(true);
       }
     } catch (e) {
@@ -137,390 +136,241 @@ class AddRecipePageState extends State<AddRecipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text('Add New Recipe'),
-        backgroundColor: Colors.brown[200],
-        actions: [
-          if (_isLoading)
-            const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            )
-          else
-            TextButton(
-              onPressed: _saveRecipe,
-              child: const Text(
-                'SAVE',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-        ],
+        title: const Text(
+          'Create Recipe',
+          style: TextStyle(fontWeight: FontWeight.w600, letterSpacing: 0.5),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey[800],
+        elevation: 0,
+        centerTitle: true,
+        // actions: [
+        //   if (_isLoading)
+        //     const Center(
+        //       child: Padding(
+        //         padding: EdgeInsets.all(16.0),
+        //         child: SizedBox(
+        //           width: 20,
+        //           height: 20,
+        //           child: CircularProgressIndicator(strokeWidth: 2),
+        //         ),
+        //       ),
+        //     )
+        //   else
+        //     Container(
+        //       margin: const EdgeInsets.only(right: 16.0, top: 8, bottom: 8),
+        //       // child: ElevatedButton(
+        //       //   onPressed: _saveRecipe,
+        //       //   style: ElevatedButton.styleFrom(
+        //       //     backgroundColor: Colors.brown[600],
+        //       //     foregroundColor: Colors.white,
+        //       //     elevation: 0,
+        //       //     shape: RoundedRectangleBorder(
+        //       //       borderRadius: BorderRadius.circular(12),
+        //       //     ),
+        //       //     padding: const EdgeInsets.symmetric(horizontal: 20),
+        //       //   ),
+        //       //   child: const Text(
+        //       //     'Save',
+        //       //     style: TextStyle(fontWeight: FontWeight.w600),
+        //       //   ),
+        //       // ),
+        //     ),
+        // ],
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Recipe Title
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  labelText: 'Recipe Title',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  prefixIcon: const Icon(Icons.restaurant),
+              // Basic Information Section
+              _buildSection(
+                title: 'Basic Information',
+                icon: Icons.info_outline,
+                child: Column(
+                  children: [
+                    _buildTextField(
+                      controller: _titleController,
+                      label: 'Recipe Title',
+                      hint: 'Enter your recipe name',
+                      icon: Icons.restaurant_menu,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter a recipe title';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _buildTextField(
+                      controller: _imageUrlController,
+                      label: 'Image URL',
+                      hint: 'Add a photo URL (optional)',
+                      icon: Icons.image_outlined,
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a recipe title';
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 16),
 
-              // Image URL
-              TextFormField(
-                controller: _imageUrlController,
-                decoration: InputDecoration(
-                  labelText: 'Image URL (optional)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  prefixIcon: const Icon(Icons.image),
+              // Recipe Details Section
+              _buildSection(
+                title: 'Recipe Details',
+                icon: Icons.tune,
+                child: Column(
+                  children: [
+                    _buildDropdown<RecipeCategory>(
+                      label: 'Category',
+                      value: _selectedCategory,
+                      icon: Icons.category_outlined,
+                      items: RecipeCategory.values.map((category) {
+                        return DropdownMenuItem(
+                          value: category,
+                          child: Text(category.displayName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() => _selectedCategory = value!);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _buildDropdown<DietType>(
+                      label: 'Diet Type',
+                      value: _selectedDiet,
+                      icon: Icons.eco_outlined,
+                      items: DietType.values.map((diet) {
+                        return DropdownMenuItem(
+                          value: diet,
+                          child: Text(diet.displayName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() => _selectedDiet = value!);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _buildDropdown<Difficulty>(
+                      label: 'Difficulty Level',
+                      value: _selectedDifficulty,
+                      icon: Icons.speed_outlined,
+                      items: Difficulty.values.map((difficulty) {
+                        return DropdownMenuItem(
+                          value: difficulty,
+                          child: Text(difficulty.displayName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() => _selectedDifficulty = value!);
+                      },
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-
-              // Category Dropdown
-              DropdownButtonFormField<RecipeCategory>(
-                value: _selectedCategory,
-                decoration: InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  prefixIcon: const Icon(Icons.category),
-                ),
-                items: RecipeCategory.values.map((category) {
-                  return DropdownMenuItem(
-                    value: category,
-                    child: Text(category.displayName),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() => _selectedCategory = value!);
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Diet Type Dropdown
-              DropdownButtonFormField<DietType>(
-                value: _selectedDiet,
-                decoration: InputDecoration(
-                  labelText: 'Diet Type',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  prefixIcon: const Icon(Icons.local_dining),
-                ),
-                items: DietType.values.map((diet) {
-                  return DropdownMenuItem(
-                    value: diet,
-                    child: Text(diet.displayName),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() => _selectedDiet = value!);
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Difficulty Dropdown
-              DropdownButtonFormField<Difficulty>(
-                value: _selectedDifficulty,
-                decoration: InputDecoration(
-                  labelText: 'Difficulty',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  prefixIcon: const Icon(Icons.bar_chart),
-                ),
-                items: Difficulty.values.map((difficulty) {
-                  return DropdownMenuItem(
-                    value: difficulty,
-                    child: Text(difficulty.displayName),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() => _selectedDifficulty = value!);
-                },
-              ),
-              const SizedBox(height: 24),
 
               // Ingredients Section
-              Row(
-                children: [
-                  const Icon(Icons.list, color: Colors.brown),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Ingredients',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.brown[800],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _ingredientController,
-                      decoration: InputDecoration(
-                        hintText: 'Add an ingredient',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onFieldSubmitted: (_) => _addIngredient(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _addIngredient,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.brown[600],
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Add'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              // Ingredients List
-              if (_ingredients.isNotEmpty) ...[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey[300]!),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _ingredients.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          radius: 12,
-                          backgroundColor: Colors.brown[100],
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.brown[800],
-                            ),
+              _buildSection(
+                title: 'Ingredients',
+                icon: Icons.list_alt,
+                subtitle: 'Add all ingredients needed for this recipe',
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            controller: _ingredientController,
+                            label: 'Add Ingredient',
+                            hint: 'e.g., 2 cups flour',
+                            icon: Icons.add_circle_outline,
+                            onFieldSubmitted: (_) => _addIngredient(),
                           ),
                         ),
-                        title: Text(_ingredients[index]),
-                        trailing: IconButton(
-                          icon: const Icon(
-                            Icons.remove_circle,
-                            color: Colors.red,
-                          ),
-                          onPressed: () => _removeIngredient(index),
+                        const SizedBox(width: 16),
+                        _buildActionButton(
+                          onPressed: _addIngredient,
+                          label: 'Add',
+                          icon: Icons.add,
                         ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 24),
-              ],
-
-              // Instructions Section
-              Row(
-                children: [
-                  const Icon(Icons.format_list_numbered, color: Colors.brown),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Instructions',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.brown[800],
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _instructionController,
-                      decoration: InputDecoration(
-                        hintText: 'Add an instruction step',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      maxLines: 2,
-                      onFieldSubmitted: (_) => _addInstruction(),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _addInstruction,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.brown[600],
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Add'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-
-              // Instructions List
-              if (_instructions.isNotEmpty) ...[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey[300]!),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _instructions.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          radius: 12,
-                          backgroundColor: Colors.brown[100],
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.brown[800],
-                            ),
-                          ),
-                        ),
-                        title: Text(_instructions[index]),
-                        trailing: IconButton(
-                          icon: const Icon(
-                            Icons.remove_circle,
-                            color: Colors.red,
-                          ),
-                          onPressed: () => _removeInstruction(index),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 24),
-              ],
-
-              // Additional Recipe Information (Optional)
-              Card(
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.info_outline, color: Colors.brown),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Recipe Summary',
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(
-                                  color: Colors.brown[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildInfoChip(
-                              icon: Icons.category,
-                              label: 'Category',
-                              value: _selectedCategory.displayName,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildInfoChip(
-                              icon: Icons.local_dining,
-                              label: 'Diet',
-                              value: _selectedDiet.displayName,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _buildInfoChip(
-                              icon: Icons.bar_chart,
-                              label: 'Difficulty',
-                              value: _selectedDifficulty.displayName,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _buildInfoChip(
-                              icon: Icons.list,
-                              label: 'Ingredients',
-                              value: '${_ingredients.length} items',
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      _buildInfoChip(
-                        icon: Icons.format_list_numbered,
-                        label: 'Instructions',
-                        value: '${_instructions.length} steps',
+                    if (_ingredients.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      _buildItemsList(
+                        items: _ingredients,
+                        onRemove: _removeIngredient,
+                        emptyMessage: 'No ingredients added yet',
                       ),
                     ],
-                  ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 24),
 
-              // Save Button (Alternative to AppBar button)
-              SizedBox(
+              // Instructions Section
+              _buildSection(
+                title: 'Instructions',
+                icon: Icons.format_list_numbered,
+                subtitle: 'Step-by-step cooking instructions',
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            controller: _instructionController,
+                            label: 'Add Instruction',
+                            hint: 'Describe the cooking step',
+                            icon: Icons.note_add_outlined,
+                            maxLines: 3,
+                            onFieldSubmitted: (_) => _addInstruction(),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: _buildActionButton(
+                            onPressed: _addInstruction,
+                            label: 'Add',
+                            icon: Icons.add,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (_instructions.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      _buildItemsList(
+                        items: _instructions,
+                        onRemove: _removeInstruction,
+                        emptyMessage: 'No instructions added yet',
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+
+              // Recipe Summary
+              if (_ingredients.isNotEmpty || _instructions.isNotEmpty)
+                _buildSection(
+                  title: 'Recipe Summary',
+                  icon: Icons.summarize_outlined,
+                  child: _buildSummaryCard(),
+                ),
+
+              // Save Button
+              Container(
                 width: double.infinity,
-                height: 50,
+                padding: const EdgeInsets.all(24),
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _saveRecipe,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.brown[600],
                     foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    elevation: 0,
                   ),
                   child: _isLoading
                       ? const Row(
@@ -536,27 +386,25 @@ class AddRecipePageState extends State<AddRecipePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 12),
-                            Text('Saving Recipe...'),
-                          ],
-                        )
-                      : const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.save),
-                            SizedBox(width: 8),
+                            SizedBox(width: 16),
                             Text(
-                              'Save Recipe',
+                              'Creating Recipe...',
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
+                        )
+                      : const Text(
+                          'Create Recipe',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                 ),
               ),
-              const SizedBox(height: 32),
             ],
           ),
         ),
@@ -564,48 +412,335 @@ class AddRecipePageState extends State<AddRecipePage> {
     );
   }
 
-  Widget _buildInfoChip({
+  Widget _buildSection({
+    required String title,
+    required IconData icon,
+    String? subtitle,
+    required Widget child,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.brown[50],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: Colors.brown[600], size: 20),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    if (subtitle != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          child,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    required IconData icon,
+    String? Function(String?)? validator,
+    int maxLines = 1,
+    void Function(String)? onFieldSubmitted,
+  }) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      maxLines: maxLines,
+      onFieldSubmitted: onFieldSubmitted,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon, color: Colors.grey[600]),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.brown[600]!, width: 2),
+        ),
+        filled: true,
+        fillColor: Colors.grey[50],
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDropdown<T>({
+    required String label,
+    required T value,
+    required IconData icon,
+    required List<DropdownMenuItem<T>> items,
+    required void Function(T?) onChanged,
+  }) {
+    return DropdownButtonFormField<T>(
+      value: value,
+      items: items,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: Colors.grey[600]),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.brown[600]!, width: 2),
+        ),
+        filled: true,
+        fillColor: Colors.grey[50],
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required VoidCallback onPressed,
+    required String label,
+    required IconData icon,
+  }) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.brown[600],
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 0,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 18),
+          const SizedBox(width: 8),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItemsList({
+    required List<String> items,
+    required void Function(int) onRemove,
+    required String emptyMessage,
+  }) {
+    if (items.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
+        child: Center(
+          child: Text(
+            emptyMessage,
+            style: TextStyle(color: Colors.grey[600], fontSize: 14),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: items.length,
+        separatorBuilder: (context, index) =>
+            Divider(height: 1, color: Colors.grey[200]),
+        itemBuilder: (context, index) {
+          return ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+            leading: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: Colors.brown[100],
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    color: Colors.brown[700],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ),
+            title: Text(
+              items[index],
+              style: const TextStyle(fontSize: 15, color: Colors.black87),
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.remove_circle_outline, color: Colors.red[400]),
+              onPressed: () => onRemove(index),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSummaryCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.brown[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.brown[200]!),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildSummaryItem(
+                  icon: Icons.category_outlined,
+                  label: 'Category',
+                  value: _selectedCategory.displayName,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildSummaryItem(
+                  icon: Icons.eco_outlined,
+                  label: 'Diet',
+                  value: _selectedDiet.displayName,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _buildSummaryItem(
+                  icon: Icons.speed_outlined,
+                  label: 'Difficulty',
+                  value: _selectedDifficulty.displayName,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildSummaryItem(
+                  icon: Icons.format_list_numbered,
+                  label: 'Steps',
+                  value: '${_instructions.length}',
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          _buildSummaryItem(
+            icon: Icons.list_alt,
+            label: 'Ingredients',
+            value: '${_ingredients.length} items',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryItem({
     required IconData icon,
     required String label,
     required String value,
   }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.brown[50],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.brown[200]!),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: 16, color: Colors.brown[600]),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.brown[600],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.brown[800],
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.brown[700]),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.brown[700],
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
-      ),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
