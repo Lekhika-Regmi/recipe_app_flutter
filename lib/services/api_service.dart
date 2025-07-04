@@ -4,7 +4,8 @@ import '../models/recipe_model.dart';
 
 class ApiService {
   late Dio _dio;
-  static const String _baseUrl = 'http://localhost:3000';
+  // static const String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = 'http://10.0.2.2:3000';
   static const String _recipesEndpoint = '/recipes';
 
   // Current user ID - you can manage this through a user service or shared preferences
